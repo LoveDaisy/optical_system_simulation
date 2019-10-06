@@ -25,7 +25,7 @@ for i = 1:wl_num
 
     tmp_rays = rays_store(:, :, end);
     tmp_rays(:, 3) = tmp_rays(:, 3) - z0;
-    tmp_pts = OpticalSystem.intersectWithSphere(tmp_rays(:, 1:3), tmp_rays(:, 4:6), ci);
+    tmp_pts = OpticalSystem.intersectWithConic(tmp_rays(:, 1:3), tmp_rays(:, 4:6), ci, 0);
 
     if abs(ci) > 1e-4
         pts(:, 1, i) = asin(tmp_pts(:, 1) * abs(ci)) / abs(ci);

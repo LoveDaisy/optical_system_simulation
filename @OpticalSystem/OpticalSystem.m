@@ -79,9 +79,7 @@ classdef OpticalSystem
 
         % Ray tracing
         rays_store = traceRays(rays, sys_data)
-        pts = intersectWithSphere(pts, ray_dir, c)
         pts = intersectWithConic(pts, ray_dir, c, k)
-        ray_dir = refractAtSphere(ray, n_rel, c)
         ray_dir = refractAtConic(ray, n_rel, c, k)
     end
 end

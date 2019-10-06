@@ -32,9 +32,9 @@ for k = 1:wl_num
         curr_t = sys_data(i, 2, k);
         curr_n = sys_data(i, 3, k);
 
-        ray_pts = OpticalSystem.intersectWithSphere(ray_pts, ray_dir, curr_c);
-        ray_dir = OpticalSystem.refractAtSphere([ray_pts, ray_dir], ...
-            curr_c, prev_n / curr_n);
+        ray_pts = OpticalSystem.intersectWithConic(ray_pts, ray_dir, curr_c, 0);
+        ray_dir = OpticalSystem.refractAtConic([ray_pts, ray_dir], ...
+            prev_n / curr_n, curr_c, 0);
         prev_n = curr_n;
 
         rays_store(:, 1:3, i, k) = ray_pts;
