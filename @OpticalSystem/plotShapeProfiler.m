@@ -4,6 +4,8 @@ function plotShapeProfiler(obj)
 
 line_color = [0.337, 0.404, 0.624];
 line_width = 1.5;
+n_min = 1.35;
+n_max = 2.35;
 surface_num = length(obj.surfaces);
 
 hold on;
@@ -27,7 +29,7 @@ while ind <= surface_num
             (1 + sqrt(1 - obj.surfaces(i).c^2 * tmp_y.^2)) + curr_z;
         tmp_x2 = obj.surfaces(i+1).c * tmp_y.^2 ./ ...
             (1 + sqrt(1 - obj.surfaces(i+1).c^2 * tmp_y.^2)) + curr_z + obj.surfaces(i).t;
-        a = min(max((obj.surfaces(i).glass.nd - 1.35) / 1.0, 0), 1);
+        a = min(max((obj.surfaces(i).glass.nd - n_min) / (n_max - n_min), 0), 1);
         fill_color = [1, 1, 1] * (1 - a) + line_color * a;
         patch([tmp_x1, tmp_x2], [tmp_y, wrev(tmp_y)], fill_color, 'EdgeColor', 'none');
         curr_z = curr_z + obj.surfaces(i).t;

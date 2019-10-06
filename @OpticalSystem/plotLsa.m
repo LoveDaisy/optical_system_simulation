@@ -17,6 +17,9 @@ for i = 1:length(lambda)
     plot((lsa(:, i) - l0), h/hm, 'linewidth', 2, ...
         'color', line_colors(i, :));
 end
-set(gca, 'ylim', [0, 1]);
+set(gca, 'ylim', [0, 1], 'FontSize', 12);
+xlabel('Longitudinal shift (mm)', 'FontSize', 14);
+ylabel('Relative entrance pupil', 'FontSize', 14);
+title('Spherical chromatic aberration', 'FontSize', 16);
 box on;
 end

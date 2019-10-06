@@ -5,6 +5,7 @@ function plotRayFan(obj, lambda, field_angle, varargin)
 %   field_angle:    m-vector, field angle, in degree
 % OPTIONAL INPUT
 %   image_curvature:    scalar
+%   'YLim':             2-vector
 
 OpticalSystem.check1D(lambda);
 OpticalSystem.check1D(field_angle);
@@ -13,6 +14,16 @@ if length(varargin) >= 1 && isscalar(varargin{1})
     image_curvature = varargin{1};
 else
     image_curvature = 0;
+end
+if length(varargin) >= 3 && ischar(varargin{2}) && strcmpi(varargin{2}, 'ylim')
+    OpticalSystem.check1D(varargin{3});
+    if isnumeric(varargin{3}) && length(varargin{3}) >= 2
+        ylim = varargin{3};
+    else
+        error('YLim should be 2-length vector [y_min, y_max]!');
+    end
+else
+    ylim = [];
 end
 
 line_colors = spec_to_rgb([lambda(:), ones(length(lambda), 1)], 'maxy', 1.2);
@@ -63,17 +74,35 @@ d_min = min(min(reshape(tangential_pts(:, 2, :, :), [], 1)), ...
     min(reshape(sagittal_pts(:, 1, :, :), [], 1)));
 d_max = max(max(reshape(tangential_pts(:, 2, :, :), [], 1)), ...
     max(reshape(sagittal_pts(:, 1, :, :), [], 1)));
+if isempty(ylim)
+    ylim = [d_min, d_max];
+end
 
 
-margins = [0.07, 0.07, 0.1, 0.1];   % top, right, bottom, left
-spacings = [0.06, 0.06];  % horizontal, vertical
+margins = [0.07, 0.07, 0.13, 0.13];   % top, right, bottom, left
+spacings = [0.04, 0.075];  % horizontal, vertical
 subplot_w = (1 - spacings(1) - margins(2) - margins(4)) / 3;
 subplot_h = (1 - spacings(2)*(angle_num - 1) - margins(1) - margins(3)) / angle_num;
 
 axes_store = cell(angle_num, 2);
+% Axis title
+subplot('Position', [0, 0, margins(4), 1]);
+text(0.35, 0.5, 'Lateral aberration (mm)', 'FontSize', 14, 'Rotation', 90, ...
+    'HorizontalAlignment', 'center');
+axis off;
+
+subplot('Position', [margins(4), 1 - margins(1), subplot_w * 2, margins(1)]);
+text(0.5, 0.5, '$$\Delta y$$', 'FontSize', 14, 'Rotation', 0, ...
+    'HorizontalAlignment', 'center', 'Interpreter', 'latex');
+axis off;
+
+subplot('Position', [margins(4) + subplot_w * 2 + spacings(1), 1 - margins(1), subplot_w, margins(1)]);
+text(0.5, 0.5, '$$\Delta x$$', 'FontSize', 14, 'Rotation', 0, ...
+    'HorizontalAlignment', 'center', 'Interpreter', 'latex');
+axis off;
+
 % Tangential
 for i = 1:angle_num
-%     subplot(angle_num, 2, i*2-1);
     subplot('Position', [margins(4), ...
         margins(3) + (subplot_h + spacings(2)) * (angle_num - i), ...
         subplot_w*2, subplot_h]);
@@ -87,13 +116,14 @@ for i = 1:angle_num
             'color', line_colors(k, :));
     end
     box on;
-    set(gca, 'xlim', [-1.05, 1.05], 'ylim', [d_min, d_max]*1.3);
-    axes_store{i, 1} = gca;
+    set(gca, 'xlim', [-1.05, 1.05], 'ylim', ylim*1.3, 'FontSize', 12);
+    if i == angle_num
+        xlabel('Relative entrance pupil', 'FontSize', 14);
+    end
 end
 
 % Sagittal
 for i = 1:angle_num
-%     subplot(angle_num, 2, i*2);
     subplot('Position', [margins(4) + spacings(1) + subplot_w*2, ...
         margins(3) + (subplot_h + spacings(2)) * (angle_num - i), ...
         subplot_w, subplot_h]);
@@ -107,8 +137,10 @@ for i = 1:angle_num
             'color', line_colors(k, :));
     end
     box on;
-    set(gca, 'xlim', [0, 1.05], 'ylim', [d_min, d_max]*1.3);
-    axes_store{i, 2} = gca;
+    set(gca, 'xlim', [0, 1.05], 'ylim', ylim*1.3, 'ytick', [], 'FontSize', 12);
+    if i == angle_num
+        xlabel('Relative entrance pupil', 'FontSize', 14);
+    end
 end
 
 end
