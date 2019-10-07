@@ -25,6 +25,7 @@ for i = 1:surface_num
     sys_data(i, 3, :) = obj.surfaces(i).glass.getRefractiveIndex(lambda);
     sys_data(i, 4, :) = obj.surfaces(i).ah;
     sys_data(i, 5, :) = (obj.ast == i);
+    sys_data(i, 6, :) = obj.surfaces(i).asph_conic_k;
     if reverse_prop
         sys_data(i, 2, :) = -sys_data(i, 2, :);
         sys_data(i, 3, :) = -sys_data(i, 3, :);

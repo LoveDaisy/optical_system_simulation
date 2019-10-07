@@ -4,6 +4,7 @@ function options = makeOptimOptions(obj, varargin)
 % OPTIONAL INPUT
 %   'VarC':             n1-length uint16, surface index
 %   'VarT':             n2-length uint16, surface index
+%   'VarConic':         n3-length uint16, surface index
 %
 %   'MainWavelength':   1 double, wavelength used in monochromatic aberration,
 %                       default is d-line
@@ -72,6 +73,12 @@ while var_ind <= length(varargin)
             error('parameter invalid!');
         end
         options.var_t = var_val;
+    elseif strcmpi(var_name, 'varconic')
+        OpticalSystem.check1D(var_val);
+        if ~isnumeric(var_val) || any(var_val < 1) || any(var_val > surface_num)
+            error('parameter invalid!');
+        end
+        options.var_conic = var_val;
     elseif strcmpi(var_name, 'mainwavelength')
         if ~isscalar(var_val)
             error('main wavelength should be a double!');

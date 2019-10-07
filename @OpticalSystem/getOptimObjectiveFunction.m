@@ -18,6 +18,10 @@ var_t_length = length(options.var_t);
 for i = 1:var_t_length
     obj.surfaces(options.var_t(i)).t = x(i + var_c_length);
 end
+var_conic_length = length(options.var_conic);
+for i = 1:var_conic_length
+    obj.surfaces(options.var_conic(i)).asph_conic_k = x(i + var_c_length + var_t_length);
+end
 
 thickness_violation_err = abs(min(x(var_c_length+1:end), 0)) * 1e6;
 

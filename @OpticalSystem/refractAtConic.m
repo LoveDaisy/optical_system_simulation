@@ -8,7 +8,8 @@ function ray_dir = refractAtConic(ray, n_rel, c, k)
 if size(ray, 2) ~= 6 || ~isscalar(c) || ~isscalar(n_rel)
     error('input parameter invalid!');
 end
-off_surf_ind = abs(sum(bsxfun(@minus, ray(:, 1:3) * c, [0, 0, 1]).^2, 2) - 1) > 1e-5;
+y2 = sum(ray(:, 1:2).^2, 2);
+off_surf_ind = abs(y2 * c ./ (1 + sqrt(1 - (1 - k) * c^2 .* y2)) - ray(:, 3)) > 1e-5;
 
 ray(:, 4:6) = bsxfun(@times, ray(:, 4:6), ...
     1./sum(ray(:, 4:6).^2, 2));
