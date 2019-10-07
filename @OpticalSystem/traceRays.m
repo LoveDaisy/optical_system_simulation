@@ -31,10 +31,11 @@ for k = 1:wl_num
         curr_c = sys_data(i, 1, k);
         curr_t = sys_data(i, 2, k);
         curr_n = sys_data(i, 3, k);
+        curr_conic = sys_data(i, 6, k);
 
-        ray_pts = OpticalSystem.intersectWithConic(ray_pts, ray_dir, curr_c, 0);
+        ray_pts = OpticalSystem.intersectWithConic(ray_pts, ray_dir, curr_c, curr_conic);
         ray_dir = OpticalSystem.refractAtConic([ray_pts, ray_dir], ...
-            prev_n / curr_n, curr_c, 0);
+            prev_n / curr_n, curr_c, curr_conic);
         prev_n = curr_n;
 
         rays_store(:, 1:3, i, k) = ray_pts;
