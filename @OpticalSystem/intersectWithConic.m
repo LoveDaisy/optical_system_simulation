@@ -23,7 +23,7 @@ a = pts.^2 * [1; 1; 1-k] * c - 2 * pts(:, 3);
 b = (sum(pts .* ray_dir, 2) - ray_dir(:, 3) .* pts(:, 3) * k) * c - ray_dir(:, 3);
 
 delta = a .* c .* (ray_dir(:, 3).^2 * k - 1) + b.^2;
-t = a ./ (sqrt(max(delta, 0)) - b);
+t = a ./ (sign(ray_dir(:, 3)) .* sqrt(max(delta, 0)) - b);
 
 pts = pts + bsxfun(@times, t, ray_dir);
 
