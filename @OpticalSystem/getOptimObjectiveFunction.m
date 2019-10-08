@@ -23,7 +23,7 @@ for i = 1:var_conic_length
     obj.surfaces(options.var_conic(i)).asph_conic_k = x(i + var_c_length + var_t_length);
 end
 
-thickness_violation_err = abs(min(x(var_c_length+1:end), 0)) * 1e6;
+thickness_violation_err = sum(abs(min(x(var_c_length+1:end), 0))) * 1e6;
 
 % Back working length
 main_l_err = getWorkingLengthError(obj, options);
@@ -228,7 +228,6 @@ end
 
 pupil = obj.getPupils();
 lambda = [options.main_wl; options.chm_wl(:)];
-wl_num = length(lambda);
 angle_num = length(options.field_sample);
 
 obj.surfaces(end).t = obj.getBackWorkingLength(0, options.main_wl);
@@ -238,6 +237,7 @@ pts_num = size(pts0, 1);
 
 rms = 0;
 sk = 0;
+ast = 0;
 init_pts = [pts0, zeros(pts_num, 1)];
 init_dir = zeros(pts_num, 3);
 for i = 1:angle_num
@@ -248,11 +248,13 @@ for i = 1:angle_num
 
     d = bsxfun(@minus, pts, pts_center);
 
-    mean_r2 = sum(reshape(d.^2, [], wl_num)) / pts_num / pupil(1, 2)^2;
+    mean_r2 = squeeze(sum(d.^2) / pts_num);
     curr_sk = reshape(max(abs(skewness(d, 0, 1)), [], 2), 1, []);
+    curr_ast = abs(diff(mean_r2, 1, 1));
 
-    rms = rms + mean_r2 * options.obj_rms_field(i);
-    sk = sk + curr_sk;
+    rms = rms + sum(mean_r2) * options.obj_rms_field(i);
+    sk = sk + curr_sk * options.obj_rms_field(i);
+    ast = ast + curr_ast * options.obj_rms_field(i);
 end
-rms_err = sum(rms) + sum(sk) * 0.5e-5;
+rms_err = sum(rms(:)) + sum(sk(:)) * 0.5e-5 + sum(ast(:)) * 5;
 end
