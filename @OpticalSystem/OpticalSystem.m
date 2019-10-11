@@ -47,19 +47,11 @@ classdef OpticalSystem
         obj = updateParameters(obj, options, x)
         pts = traceRayInterception(obj, init_rays, varargin)
 
-        % Syntax:
-        %   obj.plotLsa()
-        %   obj.plotLsa('normalized', true, 'xlim', [-1e-3, 0.2e-3])
+        % Plot functions
         plotLsa(obj, lambda, varargin)
-
-        % Syntax:
-        %   obj.plotRayFan(lambda, field_angle)
-        %   obj.plotRayFan(lambda, field_angle, 'ylim', [-2e-2, 2e-2])
         plotRayFan(obj, lambda, field_angle, varargin)
-
-        % Syntax:
-        %   obj.plotShapeProfiler()
         plotShapeProfiler(obj)
+        plotSpotDiagram(obj, lambda, field_angle, varargin)
     end
 
     methods (Access = private)
