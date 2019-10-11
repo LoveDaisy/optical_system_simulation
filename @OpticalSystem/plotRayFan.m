@@ -75,7 +75,7 @@ d_min = min(min(reshape(tangential_pts(:, 2, :, :), [], 1)), ...
 d_max = max(max(reshape(tangential_pts(:, 2, :, :), [], 1)), ...
     max(reshape(sagittal_pts(:, 1, :, :), [], 1)));
 if isempty(ylim)
-    ylim = [d_min, d_max];
+    ylim = [min(d_min, -airy_disk_r), max(d_max, airy_disk_r)];
 end
 
 

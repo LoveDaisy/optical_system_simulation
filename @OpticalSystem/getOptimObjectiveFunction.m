@@ -51,7 +51,7 @@ rms_err = getRmsError(obj, options);
 
 f_all = [thickness_violation_err; main_f_err; main_l_err; abrr3_err; main_lsa_err; ...
     chm_lsa_err; main_osc_err; ray_fan_err; rms_err];
-f = log10(sum(f_all) + 1e-9);
+f = log10(sum(f_all) + 1e-12);
 end
 
 
