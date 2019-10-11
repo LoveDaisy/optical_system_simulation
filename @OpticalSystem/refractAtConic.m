@@ -11,8 +11,8 @@ end
 y2 = sum(ray(:, 1:2).^2, 2);
 off_surf_ind = abs(y2 * c ./ (1 + sqrt(1 - (1 - k) * c^2 .* y2)) - ray(:, 3)) > 1e-5;
 
-ray(:, 4:6) = bsxfun(@times, ray(:, 4:6), ...
-    1./sum(ray(:, 4:6).^2, 2));
+% ray(:, 4:6) = bsxfun(@times, ray(:, 4:6), ...
+%     1./sum(ray(:, 4:6).^2, 2));
 
 norm_dir = [ray(:, 1:2) * c, ray(:, 3) * c * (1 - k) - 1];
 norm_dir = bsxfun(@times, norm_dir, 1 ./ sqrt(sum(norm_dir.^2, 2)));

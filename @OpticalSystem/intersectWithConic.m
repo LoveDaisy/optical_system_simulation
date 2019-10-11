@@ -17,7 +17,7 @@ if size(pts, 2) ~= 3 || size(ray_dir, 2) ~= 3 || ...
     error('input parameter invalid!');
 end
 
-ray_dir = bsxfun(@times, ray_dir, 1./sum(ray_dir.^2, 2));
+% ray_dir = bsxfun(@times, ray_dir, 1./sum(ray_dir.^2, 2));
 
 a = pts.^2 * [1; 1; 1-k] * c - 2 * pts(:, 3);
 b = (sum(pts .* ray_dir, 2) - ray_dir(:, 3) .* pts(:, 3) * k) * c - ray_dir(:, 3);
