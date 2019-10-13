@@ -90,7 +90,7 @@ function options = parse_input(varargin)
 if ~isempty(varargin)
     varargin = varargin{1};
 end
-options.margins = [0.18, 0.12, 0.25, 0.25];      % top, right, bottom, left
+options.margins = [0.13, 0.12, 0.25, 0.25];      % top, right, bottom, left
 options.width_pixel = 1000;
 options.width_length = 300e-3;
 options.row_height_ratio = 0.28;

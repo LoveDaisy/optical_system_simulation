@@ -79,7 +79,7 @@ if isempty(ylim)
 end
 
 
-margins = [0.07, 0.08, 0.13, 0.13];   % top, right, bottom, left
+margins = [0.07, 0.08, 0.13, 0.15];   % top, right, bottom, left
 spacings = [0.04, 0.075];  % horizontal, vertical
 subplot_w = (1 - spacings(1) - margins(2) - margins(4)) / 3;
 subplot_h = (1 - spacings(2)*(angle_num - 1) - margins(1) - margins(3)) / angle_num;
@@ -120,6 +120,8 @@ for i = 1:angle_num
     if i == angle_num
         xlabel('Relative entrance pupil', 'FontSize', 14);
     end
+    ylabel(sprintf('$$%.2f^\\circ$$', field_angle(i)), 'FontSize', 14, ...
+        'Interpreter', 'latex');
 end
 
 % Sagittal
