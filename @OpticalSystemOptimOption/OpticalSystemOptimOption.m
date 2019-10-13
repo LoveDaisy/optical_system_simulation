@@ -3,6 +3,7 @@ classdef OpticalSystemOptimOption
         var_c uint16        % surface index
         var_t uint16        % surface index
         var_conic uint16    % surface index
+        norm_size double    % normalized size, typical length of the system, [for_c, for_t]
 
         main_wl double      % scalar, wavelength for monochromatic aberration
         chm_wl double       % m-vector, wavelength used in chromatic-related

@@ -5,6 +5,7 @@ function options = makeOptimOptions(obj, varargin)
 %   'VarC':             n1-length uint16, surface index
 %   'VarT':             n2-length uint16, surface index
 %   'VarConic':         n3-length uint16, surface index
+%   'NormalizeSize':    2-vector, [for_c, for_t]
 %
 %   'MainWavelength':   1 double, wavelength used in monochromatic aberration,
 %                       default is d-line
@@ -50,6 +51,7 @@ options.pupil_sample_s = [0, 0.3, 0.5, 0.707, 0.85, 1];
 options.field_sample = [0, 0.5, 1];
 options.field_full = 0;
 options.image_curv = 0;
+options.norm_size = [1, 1] * obj.getFocalLength(0, options.main_wl);
 
 var_ind = 1;
 while var_ind <= length(varargin)
@@ -79,6 +81,15 @@ while var_ind <= length(varargin)
             error('parameter invalid!');
         end
         options.var_conic = var_val;
+    elseif strcmpi(var_name, 'normalizesize')
+        if ~isscalar(var_val) && ~isnumeric(var_val) && length(var_val(:)) ~= 2
+            error('NormalizeSize should be a scalar or 2-vector!');
+        end
+        if isscalar(var_val)
+            options.norm_size = var_val * [1, 1];
+        else
+            options.norm_size = var_val(:)';
+        end
     elseif strcmpi(var_name, 'mainwavelength')
         if ~isscalar(var_val)
             error('main wavelength should be a double!');

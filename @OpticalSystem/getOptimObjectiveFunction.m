@@ -12,11 +12,11 @@ end
 function [f, f_all] = objFunc(obj, options, x)
 var_c_length = length(options.var_c);
 for i = 1:var_c_length
-    obj.surfaces(options.var_c(i)).c = x(i);
+    obj.surfaces(options.var_c(i)).c = x(i) / options.norm_size(1);
 end
 var_t_length = length(options.var_t);
 for i = 1:var_t_length
-    obj.surfaces(options.var_t(i)).t = x(i + var_c_length);
+    obj.surfaces(options.var_t(i)).t = x(i + var_c_length) * options.norm_size(2);
 end
 var_conic_length = length(options.var_conic);
 for i = 1:var_conic_length
