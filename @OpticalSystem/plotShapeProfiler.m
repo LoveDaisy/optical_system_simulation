@@ -1,15 +1,27 @@
-function plotShapeProfiler(obj)
+function plotShapeProfiler(obj, fields)
 % INPUT
 %   obj:        OpticalSystem object
+%   fields:     n-length, fields
+
+if ~isempty(fields)
+    OpticalSystem.check1D(fields);
+end
 
 line_color = [0.337, 0.404, 0.624];
+ray_color = [1, 0.267, 0];
 line_width = 1.5;
 n_min = 1.35;
 n_max = 2.35;
 surface_num = length(obj.surfaces);
+field_num = length(fields);
+
+pupil = obj.getPupils();
+ray_num = 7;
+d_line = get_fraunhofer_line('d');
 
 hold on;
 
+% Plot surfaces
 ind = 1;
 total_z = 0;
 reverse_prop = false;
@@ -70,6 +82,24 @@ while ind <= surface_num
 
     total_z = curr_z;
     ind = glass_last_ind + 1;
+end
+
+
+% Plot rays
+sys_data = obj.makeInternalSystemData(d_line);
+sys_data = cat(1, sys_data, zeros(1, size(sys_data, 2), size(sys_data, 3)));
+sys_data(end, 3, :) = 1;
+init_ray_dist = obj.getFocalLength(0, d_line) * 0.05;
+for fi = 1:field_num
+    rays = [zeros(ray_num, 1), linspace(-pupil(1, 2), pupil(1, 2), ray_num)', ...
+        zeros(ray_num, 2), sind(fields(fi)) * ones(ray_num, 1), ...
+        cosd(fields(fi)) * ones(ray_num, 1)];
+    rays_store = OpticalSystem.traceRays(rays, sys_data);
+    z = squeeze(rays_store(:, 3, :, 1));
+    y = squeeze(rays_store(:, 2, :, 1));
+    z = [-rays(:,6)*init_ray_dist + z(:,1), z];
+    y = [-rays(:,5)*init_ray_dist + y(:,1), y];
+    plot(z', y', 'Color', ray_color);
 end
 
 axis equal; axis off;

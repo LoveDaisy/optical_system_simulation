@@ -40,7 +40,7 @@ classdef OpticalSystem
         l = getBackWorkingLength(obj, h, lambda)
         p = getPupils(obj)
         coef = get3rdAbrrCoeff(obj, field_angle)
-        obj = updateApertureHeight(obj, entry_beam_r)
+        obj = updateApertureHeight(obj, entry_beam_r, full_field_angle)
 
         options = makeOptimOptions(obj, varargin)
         func = getOptimObjectiveFunction(obj, options)
@@ -50,7 +50,7 @@ classdef OpticalSystem
         % Plot functions
         plotLsa(obj, lambda, varargin)
         plotRayFan(obj, lambda, field_angle, varargin)
-        plotShapeProfiler(obj)
+        plotShapeProfiler(obj, fields)
         plotSpotDiagram(obj, lambda, field_angle, varargin)
     end
 
