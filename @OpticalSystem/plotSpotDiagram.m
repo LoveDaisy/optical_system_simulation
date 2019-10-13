@@ -9,7 +9,6 @@ function plotSpotDiagram(obj, lambda, field_angle, varargin)
 %   'WidthLength':  scalar
 %   'RowHeight':    scalar, the ratio of row height vs. image width
 %   'RayNum':       scalar
-%   'DistCoef':     scalar, distortion coefficient
 %   'MaxIllum':     scalar
 %   'Airy':         'On' or 'Off'
 %   'ImageCurv':    scalar
@@ -96,7 +95,6 @@ options.width_pixel = 1000;
 options.width_length = 300e-3;
 options.row_height_ratio = 0.28;
 options.ray_num = 50000;
-options.distortion_coef = [0, 0];        % Distortion = 1 + coef_0 * alpha^2 + coef_1 * alpha^4
 options.spectrum_max_y = 3.5;
 options.show_airy = true;
 options.image_curv = 0;             % Image curvature
@@ -140,11 +138,6 @@ while ind <= length(varargin)
             error('RayNum should be a scalar!');
         end
         options.ray_num = floor(max(var_val, 1));
-    elseif strcmpi(var_name, 'distcoef')
-        if ~isnumeric(var_val) || length(var_val(:)) ~= 2
-            error('DistCoef should be 2-vec!');
-        end
-        options.distortion_coef = var_val(:);
     elseif strcmpi(var_name, 'maxillum')
         if ~isscalar(var_val)
             error('MaxIllum should be a scalar!');
@@ -193,13 +186,11 @@ for fi = 1:field_num
         ones(options.ray_num, 1) * cosd(curr_field)];
     pts = obj.traceRayInterception([init_pts, init_dir], ...
         lambda, options.image_curv);
-    
-    fx = curr_field / max(field_angle);
-    distortion = [fx^2, fx^4] * options.distortion_coef(:);
+
+    y0 = mean(reshape(pts(:,2,:), [], 1));
 
     field_heat_map = zeros(size(spec_heat_map));
-    size_config = [options.width_pixel, options.width_length, 0, f0 * tand(curr_field) * ...
-        (1 + distortion)];
+    size_config = [options.width_pixel, options.width_length, 0, y0];
     for wi = 1:wl_num
         curr_heat_map = plot_intersection_scatter(pts(:,:,wi), size_config);
 
