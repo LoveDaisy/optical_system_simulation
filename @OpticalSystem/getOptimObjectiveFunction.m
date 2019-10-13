@@ -181,8 +181,9 @@ for i = 1:angle_num
         sind(options.field_sample(i) * options.field_full) * ones(fan_ray_num, 1), ...
         cosd(options.field_sample(i) * options.field_full) * ones(fan_ray_num, 1)];
     tangential_pts(:, :, :, i) = obj.traceRayInterception([ray_pts, ray_dir], lambda, image_curvature);
-    tangential_pts(:, :, :, i) = bsxfun(@minus, tangential_pts(:, :, :, i), ...
-        tangential_pts(1, :, :, i));
+    pts0 = obj.traceRayInterception([ray_pts(1,:), ray_dir(1,:)], lambda, ...
+        image_curvature, false);
+    tangential_pts(:, :, :, i) = bsxfun(@minus, tangential_pts(:, :, :, i), pts0);
 end
 
 % Sagittal input rays
@@ -195,8 +196,9 @@ for i = 1:angle_num
         sind(options.field_sample(i) * options.field_full) * ones(fan_ray_num, 1), ...
         cosd(options.field_sample(i) * options.field_full) * ones(fan_ray_num, 1)];
     sagittal_pts(:, :, :, i) = obj.traceRayInterception([ray_pts, ray_dir], lambda, image_curvature);
-    sagittal_pts(:, :, :, i) = bsxfun(@minus, sagittal_pts(:, :, :, i), ...
-        sagittal_pts(1, :, :, i));
+    pts0 = obj.traceRayInterception([ray_pts(1,:), ray_dir(1,:)], lambda, ...
+        image_curvature, false);
+    sagittal_pts(:, :, :, i) = bsxfun(@minus, sagittal_pts(:, :, :, i), pts0);
 end
 
 dy = squeeze(tangential_pts(:, 2, :, :));
@@ -211,10 +213,10 @@ dx = bsxfun(@times, dx, reshape(options.obj_rf_field, 1, 1, angle_num));
 dx = bsxfun(@times, dx, reshape(options.obj_rf_s, [], 1, 1));
 dx = dx / pupil(1, 2);      % Normalize
 
-ray_fan_err = (sum(reshape(dy(:, 1, :).^2, [], 1)) + ...
-    sum(reshape(dx(:, 1, :).^2, [], 1)) * 2) * 10;
-ray_fan_err = ray_fan_err + (sum(reshape(var(dy(:, 2:end, :), 0, 2), [], 1)) + ...
-    sum(reshape(var(dx(:, 2:end, :), 0, 2), [], 1)) * 2) * 50;
+ray_fan_err = (nansum(reshape(dy(:, 1, :).^2, [], 1)) + ...
+    nansum(reshape(dx(:, 1, :).^2, [], 1)) * 2) * 10;
+ray_fan_err = ray_fan_err + (sum(reshape(nanvar(dy(:, 2:end, :), 0, 2), [], 1)) + ...
+    sum(reshape(nanvar(dx(:, 2:end, :), 0, 2), [], 1)) * 2) * 50;
 end
 
 
@@ -229,6 +231,7 @@ end
 pupil = obj.getPupils();
 lambda = [options.main_wl; options.chm_wl(:)];
 angle_num = length(options.field_sample);
+wl_num = length(lambda);
 
 obj.surfaces(end).t = obj.getBackWorkingLength(0, options.main_wl);
 
@@ -244,13 +247,23 @@ for i = 1:angle_num
     init_dir(:, 2) = sind(options.field_full * options.field_sample(i));
     init_dir(:, 3) = cosd(options.field_full * options.field_sample(i));
     pts = obj.traceRayInterception([init_pts, init_dir], lambda, options.image_curv);
-    pts_center = mean(pts, 1);
+    pts_center = nanmean(pts, 1);
 
-    d = bsxfun(@minus, pts, pts_center);
+    mean_r2 = zeros(wl_num, 2);
+    curr_sk = zeros(wl_num, 1);
+    curr_ast = zeros(wl_num, 1);
+    
+    for l = 1:wl_num
+        curr_pts = pts(:, :, l);
+        curr_pts = curr_pts(~isnan(curr_pts(:, 1)), :);
+        curr_pts_num = size(curr_pts, 1);
+        
+        d = bsxfun(@minus, curr_pts, pts_center(:, :, l));
 
-    mean_r2 = squeeze(sum(d.^2) / pts_num);
-    curr_sk = reshape(max(abs(skewness(d, 0, 1)), [], 2), 1, []);
-    curr_ast = abs(diff(mean_r2, 1, 1));
+        mean_r2(l, :) = nansum(d.^2) / curr_pts_num;
+        curr_sk(l) = reshape(max(abs(skewness(d, 0, 1)), [], 2), 1, []);
+        curr_ast(l) = abs(diff(mean_r2(l, :), 1, 2));
+    end
 
     rms = rms + sum(mean_r2) * options.obj_rms_field(i);
     sk = sk + curr_sk * options.obj_rms_field(i);

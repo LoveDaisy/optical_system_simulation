@@ -31,10 +31,8 @@ line_colors = spec_to_rgb([lambda(:), ones(length(lambda), 1)], 'maxy', 1.2);
 wl_num = length(lambda);
 angle_num = length(field_angle);
 
-z0 = obj.surfaces(end).t + obj.getTotalThickness();
 pupils = obj.getPupils();
 pr = pupils(1, 2);
-sys_data = obj.makeInternalSystemData(lambda);
 
 d_line = get_fraunhofer_line('d');
 airy_disk_r = 1.22 * d_line * 1e-9 / (2 * pr * 1e-3) * ...
@@ -52,8 +50,9 @@ for i = 1:angle_num
         sind(field_angle(i)) * ones(fan_ray_num, 1), ...
         cosd(field_angle(i)) * ones(fan_ray_num, 1)];
     tangential_pts(:, :, :, i) = obj.traceRayInterception([ray_pts, ray_dir], lambda, image_curvature);
-    tangential_pts(:, :, :, i) = bsxfun(@minus, tangential_pts(:, :, :, i), ...
-        tangential_pts(1, :, :, i));
+    pts0 = obj.traceRayInterception([ray_pts(1,:), ray_dir(1,:)], lambda, ...
+        image_curvature, false);
+    tangential_pts(:, :, :, i) = bsxfun(@minus, tangential_pts(:, :, :, i), pts0);
 end
 
 % Sagittal input rays
@@ -66,8 +65,9 @@ for i = 1:angle_num
         sind(field_angle(i)) * ones(fan_ray_num, 1), ...
         cosd(field_angle(i)) * ones(fan_ray_num, 1)];
     sagittal_pts(:, :, :, i) = obj.traceRayInterception([ray_pts, ray_dir], lambda, image_curvature);
-    sagittal_pts(:, :, :, i) = bsxfun(@minus, sagittal_pts(:, :, :, i), ...
-        sagittal_pts(1, :, :, i));
+    pts0 = obj.traceRayInterception([ray_pts(1,:), ray_dir(1,:)], lambda, ...
+        image_curvature, false);
+    sagittal_pts(:, :, :, i) = bsxfun(@minus, sagittal_pts(:, :, :, i), pts0);
 end
 
 d_min = min(min(reshape(tangential_pts(:, 2, :, :), [], 1)), ...
@@ -84,7 +84,6 @@ spacings = [0.04, 0.075];  % horizontal, vertical
 subplot_w = (1 - spacings(1) - margins(2) - margins(4)) / 3;
 subplot_h = (1 - spacings(2)*(angle_num - 1) - margins(1) - margins(3)) / angle_num;
 
-axes_store = cell(angle_num, 2);
 % Axis title
 subplot('Position', [0, 0, margins(4), 1]);
 text(0.35, 0.5, 'Lateral aberration (mm)', 'FontSize', 14, 'Rotation', 90, ...

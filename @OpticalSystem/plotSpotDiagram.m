@@ -168,9 +168,7 @@ function heat_map = get_spec_heat_map(obj, lambda, field_angle, options)
 wl_num = length(lambda);
 field_num = length(field_angle);
 
-d_line = get_fraunhofer_line('d');
 pupil = obj.getPupils();
-f0 = obj.getFocalLength(0, d_line);
 
 width_pixel = options.width_pixel;
 hor_spacing = width_pixel * (1 - options.margins(2) - options.margins(4)) / (wl_num - 1);
@@ -186,6 +184,7 @@ for fi = 1:field_num
         ones(options.ray_num, 1) * cosd(curr_field)];
     pts = obj.traceRayInterception([init_pts, init_dir], ...
         lambda, options.image_curv);
+    pts = pts(~isnan(sum(sum(pts, 3), 2)), :, :);
 
     y0 = mean(reshape(pts(:,2,:), [], 1));
 
