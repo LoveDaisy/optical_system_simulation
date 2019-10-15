@@ -11,7 +11,7 @@ classdef OpticalSurface
     end
 
     methods
-        % Construct syntax:
+        %%% Construct syntax:
         %  OpticalSurface(c, t, glass)
         %  OpticalSurface()
         %  OpticalSurface(num)
@@ -38,5 +38,10 @@ classdef OpticalSurface
                 error('Constructor parameter invalid!');
             end
         end
+    end
+
+    methods
+        %%% Public methods
+        z = getShapeProfile(obj, y)
     end
 end
