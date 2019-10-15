@@ -252,12 +252,12 @@ for i = 1:angle_num
     mean_r2 = zeros(wl_num, 2);
     curr_sk = zeros(wl_num, 1);
     curr_ast = zeros(wl_num, 1);
-    
+
     for l = 1:wl_num
         curr_pts = pts(:, :, l);
         curr_pts = curr_pts(~isnan(curr_pts(:, 1)), :);
         curr_pts_num = size(curr_pts, 1);
-        
+
         d = bsxfun(@minus, curr_pts, pts_center(:, :, l));
 
         mean_r2(l, :) = nansum(d.^2) / curr_pts_num;

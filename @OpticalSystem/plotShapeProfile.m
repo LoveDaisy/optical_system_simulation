@@ -1,4 +1,4 @@
-function plotShapeProfiler(obj, fields)
+function plotShapeProfile(obj, fields)
 % INPUT
 %   obj:        OpticalSystem object
 %   fields:     n-length, fields
