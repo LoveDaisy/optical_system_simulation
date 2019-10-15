@@ -86,7 +86,7 @@ subplot_h = (1 - spacings(2)*(angle_num - 1) - margins(1) - margins(3)) / angle_
 
 % Axis title
 subplot('Position', [0, 0, margins(4), 1]);
-text(0.35, 0.5, 'Lateral aberration (mm)', 'FontSize', 14, 'Rotation', 90, ...
+text(0.23, 0.5, 'Lateral aberration (mm)', 'FontSize', 14, 'Rotation', 90, ...
     'HorizontalAlignment', 'center');
 axis off;
 
