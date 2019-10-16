@@ -50,8 +50,10 @@ classdef OpticalSystem
         % Plot functions
         plotLsa(obj, lambda, varargin)
         plotRayFan(obj, lambda, field_angle, varargin)
-        plotShapeProfile(obj, fields)
+        plotFieldCurvature(obj, full_angle, varargin)
+        plotDistortion(obj, full_angle, varargin)
         plotSpotDiagram(obj, lambda, field_angle, varargin)
+        plotShapeProfile(obj, fields)
     end
 
     methods (Access = private)
