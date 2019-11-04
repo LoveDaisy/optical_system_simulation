@@ -16,8 +16,15 @@ end
 
 wl_num = length(lambda);
 ray_num = size(init_rays, 1);
+surface_num = length(obj.surfaces);
 
-z0 = obj.surfaces(end).t + obj.getTotalThickness();
+reverse_prop = false;
+for i = 1:surface_num
+    if obj.surfaces(i).glass.is_reflective
+        reverse_prop = ~reverse_prop;
+    end
+end
+z0 = obj.surfaces(end).t * (1 - 2 * reverse_prop) + obj.getTotalThickness();
 
 pts = zeros(ray_num, 2, wl_num);
 for i = 1:wl_num

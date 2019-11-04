@@ -84,7 +84,7 @@ end
 sys_data = obj.makeInternalSystemData(d_line);
 sys_data = cat(1, sys_data, zeros(1, size(sys_data, 2), size(sys_data, 3)));
 sys_data(end, 3, :) = 1;
-init_ray_dist = obj.getFocalLength(0, d_line) * 0.05;
+init_ray_dist = abs(obj.getFocalLength(0, d_line)) * 0.05;
 for fi = 1:field_num
     rays = [zeros(ray_num, 1), linspace(-pupil(1, 2), pupil(1, 2), ray_num)', ...
         zeros(ray_num, 2), sind(fields(fi)) * ones(ray_num, 1), ...

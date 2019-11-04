@@ -13,6 +13,7 @@ if length(varargin) >= 1
     OpticalSystem.check1D(lambda);
 end
 wl_num = length(lambda);
+surface_num = length(obj.surfaces);
 line_colors = spec_to_rgb([lambda(:), ones(wl_num, 1)], 'maxy', 1.5);
 line_width = 2;
 
@@ -27,8 +28,15 @@ main_rays = [zeros(field_samples, 2),  pupil(1, 1) * ones(field_samples, 1), ...
 pts = obj.traceRayInterception(main_rays, lambda, 0, false);
 f0 = obj.getFocalLength(0, d_line);
 
-d = bsxfun(@times, bsxfun(@minus, squeeze(pts(:, 2, :)), f0 * tand(fields)), ...
-    1 ./ (f0 * tand(fields))) * 100;
+reverse_prop = false;
+for i = 1:surface_num
+    if obj.surfaces(i).glass.is_reflective
+        reverse_prop = ~reverse_prop;
+    end
+end
+p0 = f0 * (1 - 2 * reverse_prop) * tand(fields);
+d = bsxfun(@times, bsxfun(@minus, squeeze(pts(:, 2, :)), p0), ...
+    1 ./ p0) * 100;
 xlim = [min(min(d(:)), -0.1), max(max(d(:)), 0.1)];
 
 hold on;

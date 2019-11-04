@@ -36,7 +36,7 @@ pr = pupils(1, 2);
 
 d_line = get_fraunhofer_line('d');
 airy_disk_r = 1.22 * d_line * 1e-9 / (2 * pr * 1e-3) * ...
-    obj.getFocalLength(0, d_line);
+    abs(obj.getFocalLength(0, d_line));
 
 fan_ray_num = 50;
 

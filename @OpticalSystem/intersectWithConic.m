@@ -24,6 +24,8 @@ b = (sum(pts .* ray_dir, 2) - ray_dir(:, 3) .* pts(:, 3) * k) * c - ray_dir(:, 3
 
 delta = a .* c .* (ray_dir(:, 3).^2 * k - 1) + b.^2;
 t = a ./ (sign(ray_dir(:, 3)) .* sqrt(max(delta, 0)) - b);
+t_nan = 2 * b ./ c ./ (ray_dir(:, 3).^2 * k - 1);
+t(isnan(t)) = t_nan(isnan(t));
 
 pts = pts + bsxfun(@times, t, ray_dir);
 
