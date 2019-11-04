@@ -35,8 +35,8 @@ height_pixel = floor(ver_spacing * (field_num - 1) / (1 - options.margins(1) - o
 spot_diagram = get_spec_heat_map(obj, lambda, field_angle, options);
 
 % Compute some size
-airy_disk_r = 1.22 * d_line * 1e-9 / (2 * pupil(1, 2) * 1e-3) * f0 * ...
-    options.width_pixel / options.width_length;
+airy_disk_r = abs(1.22 * d_line * 1e-9 / (2 * pupil(1, 2) * 1e-3) * f0 * ...
+    options.width_pixel / options.width_length);
 pix_num = [24, 12, 8];
 pix_size = 24 ./ (sqrt(pix_num / 1.5) * 1e3);
 size_bar_len = pix_size * options.width_pixel / options.width_length;
