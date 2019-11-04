@@ -52,7 +52,7 @@ classdef OpticalSystem
         plotRayFan(obj, lambda, field_angle, varargin)
         plotFieldCurvature(obj, full_angle, varargin)
         plotDistortion(obj, full_angle, varargin)
-        plotSpotDiagram(obj, lambda, field_angle, varargin)
+        img = plotSpotDiagram(obj, lambda, field_angle, varargin)
         plotShapeProfile(obj, fields)
     end
 

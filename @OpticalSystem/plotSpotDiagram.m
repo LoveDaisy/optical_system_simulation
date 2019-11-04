@@ -1,4 +1,4 @@
-function plotSpotDiagram(obj, lambda, field_angle, varargin)
+function spot_diagram = plotSpotDiagram(obj, lambda, field_angle, varargin)
 % INPUT
 %   obj:            OpticalSystem object
 %   lambda:         n1-vector, wavelength
@@ -12,6 +12,8 @@ function plotSpotDiagram(obj, lambda, field_angle, varargin)
 %   'MaxIllum':     scalar
 %   'Airy':         'On' or 'Off'
 %   'ImageCurv':    scalar
+% OUTPUT
+%   spot_diagram:   the figure image
 
 OpticalSystem.check1D(lambda);
 OpticalSystem.check1D(field_angle);
@@ -41,48 +43,52 @@ pix_num = [24, 12, 8];
 pix_size = 24 ./ (sqrt(pix_num / 1.5) * 1e3);
 size_bar_len = pix_size * options.width_pixel / options.width_length;
 
-% Show spot diagram
-imshow(spot_diagram);
-axis xy;
-hold on;
 
 % Plot airy circle
 notation_color = [1, 1, 1] * 0.8;
-for fi = 1:field_num
-    for wi = 1:wl_num
-        x0 = options.margins(4) * width_pixel + hor_spacing * (wi - 1);
-        y0 = options.margins(3) * height_pixel + ver_spacing * (fi - 1);
-        plot(cosd(0:360) * airy_disk_r + x0, sind(0:360) * airy_disk_r + y0, ...
-            'Color', notation_color, ...
-            'LineWidth', 1);
-    end
-end
+line_width = max(round(0.002 * width_pixel), 1);
+[x0, y0] = meshgrid(options.margins(4) * width_pixel + hor_spacing * (0:wl_num-1), ...
+    height_pixel - (options.margins(3) * height_pixel + ver_spacing * (0:field_num-1)));
+spot_diagram = insertShape(spot_diagram, 'Circle', [x0(:), y0(:), airy_disk_r*ones(numel(x0), 1)], ...
+    'Color', notation_color, 'LineWidth', line_width);
 
 % Plot field label
+font_size = max(round(0.022 * width_pixel), 10);
+line_height = max(round(0.025 * width_pixel), 11);
+label_txt = cell(field_num, 1);
 for fi = 1:field_num
-    y0 = options.margins(3) * height_pixel + ver_spacing * (fi - 1);
-    text(0.04 * width_pixel, y0, ...
-        sprintf(' %.2f deg.\n(%.2f field)', field_angle(fi), field_angle(fi) / max(field_angle)), ...
-        'Color', notation_color, ...
-        'FontSize', 12);
+    label_txt{fi} = sprintf(' %.2f deg.\n(%.2f field)', field_angle(fi), ...
+        field_angle(fi) / max(field_angle));
 end
+y0 = height_pixel - (options.margins(3) * height_pixel + ver_spacing * (0:field_num-1));
+spot_diagram = insertText(spot_diagram, [0.04 * width_pixel * ones(numel(y0), 1), y0(:)], label_txt, ...
+    'TextColor', notation_color, 'BoxColor', 'black', 'BoxOpacity', 0, ...
+    'FontSize', font_size, 'AnchorPoint', 'LeftCenter');
 
 % Plot pixel size bar
 notation_color = [1,1,1] * 0.9;
-text(0.04 * width_pixel, 0.12 * height_pixel, 'Pixel size:', ...
-    'Color', notation_color, ...
-    'FontSize', 12);
+spot_diagram = insertText(spot_diagram, [0.04 * width_pixel, 0.88 * height_pixel], 'Pixel size:', ...
+    'TextColor', notation_color, 'BoxColor', 'black', 'BoxOpacity', 0, ...
+    'FontSize', font_size, 'AnchorPoint', 'LeftCenter');
+
 notation_color = [1,1,1] * 0.75;
-line_height = 27;
+x0 = 0.04 * width_pixel * ones(length(size_bar_len), 1);
+y0 = height_pixel - (0.115 * height_pixel + 1 - (1:length(size_bar_len)) * line_height);
+label_txt = cell(length(size_bar_len), 1);
 for i = 1:length(size_bar_len)
-    text(0.04 * width_pixel, 0.115 * height_pixel + 1 - i * line_height, ...
-        sprintf('%.1fum (%dMP)', pix_size(i) * 1e3, pix_num(i)), ...
-        'Color', notation_color, ...
-        'FontSize', 11);
-    plot(floor(0.22 * width_pixel) + [1, size_bar_len(i)], ...
-        floor(0.115 * height_pixel) + [1, 1] - i * line_height, 'Color', notation_color, ...
-        'LineWidth', 1.5);
+    label_txt{i} = sprintf('%.1fum (%dMP)', pix_size(i) * 1e3, pix_num(i));
 end
+spot_diagram = insertText(spot_diagram, [x0(:), y0(:)], label_txt, ...
+    'TextColor', notation_color, 'BoxColor', 'black', 'BoxOpacity', 0, ...
+    'FontSize', font_size, 'AnchorPoint', 'LeftCenter');
+x0 = 0.22 * width_pixel * ones(numel(y0), 1);
+spot_diagram = insertShape(spot_diagram, 'Line', [x0(:)+1, y0(:), x0(:)+size_bar_len(:), y0(:)], ...
+    'Color', notation_color, 'LineWidth', line_width);
+
+% Show spot diagram
+warning('off', 'Images:initSize:adjustingMag');
+imshow(spot_diagram);
+warning('on', 'Images:initSize:adjustingMag');
 end
 
 
@@ -221,4 +227,5 @@ for wi = 1:wl_num
         'MaxY', options.spectrum_max_y * wl_xyz(wi, 2));
     heat_map = heat_map + reshape(curr_rgb, [height_pixel, width_pixel, 3]);
 end
+heat_map = flipud(heat_map);
 end
