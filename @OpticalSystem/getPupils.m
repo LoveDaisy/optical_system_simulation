@@ -8,7 +8,7 @@ function p = getPupils(obj)
 d_line = get_fraunhofer_line('d');
 p = zeros(2, 2);
 
-[front_sys, back_sys] = obj.splitAtStop();
+[front_sys, back_sys] = obj.splitAt(obj.ast);
 
 t1 = front_sys.getTotalThickness();
 

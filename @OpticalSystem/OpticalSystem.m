@@ -70,7 +70,7 @@ classdef OpticalSystem
         sys_data = makeInternalSystemData(obj, lambda)
         l = getGaussianBackWorkingLength(obj, lambda)
         f = getGaussianFocalLength(obj, lambda)
-        [front_sys, back_sys] = splitAtStop(obj)
+        [front_sys, back_sys] = splitAt(obj, surf_ind)
     end
 
     methods (Static, Access = private)

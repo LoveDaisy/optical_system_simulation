@@ -1,14 +1,13 @@
-function [front_sys, back_sys] = splitAtStop(obj)
+function [front_sys, back_sys] = splitAt(obj, surf_ind)
 % INPUT
 %   obj:        OpticalSystem object
-%   surfaces:   sub-system surface index
+%   surf_ind:   surface index (start from 1)
 % OUTPUT
-%   sub_obj:    new sub-system
+%   front_sys:    front sub-system
+%   back_sys:     back sub-system
 
-ast = obj.ast;
-
-front_surface = obj.surfaces(ast:-1:1);
-back_surface = obj.surfaces(ast:end);
+front_surface = obj.surfaces(surf_ind:-1:1);
+back_surface = obj.surfaces(surf_ind:end);
 
 for i = 1:length(front_surface)-1
     front_surface(i).t = front_surface(i+1).t;
