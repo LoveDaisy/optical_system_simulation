@@ -93,9 +93,9 @@ for fi = 1:field_num
     rays_store = OpticalSystem.traceRays(rays, sys_data);
     z = squeeze(rays_store(:, 3, :, 1));
     y = squeeze(rays_store(:, 2, :, 1));
-    z = [-rays(:,6)*init_ray_dist + z(:,1), z];
-    y = [-rays(:,5)*init_ray_dist + y(:,1), y];
-    plot(z', y', 'Color', ray_color);
+    tmp_z = [-rays(:,6)*init_ray_dist + z(:,1), z];
+    tmp_y = [-rays(:,5)*init_ray_dist + y(:,1), y];
+    plot(tmp_z', tmp_y', 'Color', ray_color);
 end
 
 axis equal; axis off;
