@@ -35,16 +35,24 @@ classdef OpticalSystem
 
     methods
         %%% Public methods
+        % Basic properties
         t = getTotalThickness(obj)
         f = getFocalLength(obj, h, lambda)
         l = getBackWorkingLength(obj, h, lambda)
         p = getPupils(obj)
+
+        % Abrration evaluation
         coef = get3rdAbrrCoeff(obj, field_angle)
+
+        % System solving
         obj = updateApertureHeight(obj, entry_beam_r, full_field_angle)
 
+        % Optimization
         options = makeOptimOptions(obj, varargin)
         func = getOptimObjectiveFunction(obj, options)
         obj = updateParameters(obj, options, x)
+
+        % Ray tracing
         pts = traceRayInterception(obj, init_rays, varargin)
 
         % Plot functions
