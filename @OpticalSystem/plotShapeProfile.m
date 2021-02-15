@@ -1,8 +1,12 @@
-function plotShapeProfile(obj, fields)
-% INPUT
-%   obj:        OpticalSystem object
-%   fields:     n-length, fields
+function plotShapeProfile(obj, varargin)
+% SYNTAX
+%   sys.plotShapeProfile(fields)
+%   sys.plotShapeProfile(Name, Value, ...)
+%       Name - Value can be following pairs
+%       'fields':  n-length vector
+%       'showrays': {true} | false
 
+[fields, show_rays] = parseArgs(varargin{:});
 if ~isempty(fields)
     OpticalSystem.check1D(fields);
 end
@@ -82,21 +86,47 @@ end
 
 
 % Plot rays
-sys_data = obj.makeInternalSystemData(d_line);
-sys_data = cat(1, sys_data, zeros(1, size(sys_data, 2), size(sys_data, 3)));
-sys_data(end, 3, :) = 1;
-init_ray_dist = abs(obj.getFocalLength(0, d_line)) * 0.05;
-for fi = 1:field_num
-    rays = [zeros(ray_num, 1), linspace(-pupil(1, 2), pupil(1, 2), ray_num)', ...
-        zeros(ray_num, 2), sind(fields(fi)) * ones(ray_num, 1), ...
-        cosd(fields(fi)) * ones(ray_num, 1)];
-    rays_store = OpticalSystem.traceRays(rays, sys_data);
-    z = squeeze(rays_store(:, 3, :, 1));
-    y = squeeze(rays_store(:, 2, :, 1));
-    tmp_z = [-rays(:,6)*init_ray_dist + z(:,1), z];
-    tmp_y = [-rays(:,5)*init_ray_dist + y(:,1), y];
-    plot(tmp_z', tmp_y', 'Color', ray_color);
+if show_rays
+    sys_data = obj.makeInternalSystemData(d_line);
+    sys_data = cat(1, sys_data, zeros(1, size(sys_data, 2), size(sys_data, 3)));
+    sys_data(end, 3, :) = 1;
+    init_ray_dist = abs(obj.getFocalLength(0, d_line)) * 0.05;
+    for fi = 1:field_num
+        rays = [zeros(ray_num, 1), linspace(-pupil(1, 2), pupil(1, 2), ray_num)', ...
+            zeros(ray_num, 2), sind(fields(fi)) * ones(ray_num, 1), ...
+            cosd(fields(fi)) * ones(ray_num, 1)];
+        rays_store = OpticalSystem.traceRays(rays, sys_data);
+        z = squeeze(rays_store(:, 3, :, 1));
+        y = squeeze(rays_store(:, 2, :, 1));
+        tmp_z = [-rays(:,6)*init_ray_dist + z(:,1), z];
+        tmp_y = [-rays(:,5)*init_ray_dist + y(:,1), y];
+        plot(tmp_z', tmp_y', 'Color', ray_color);
+    end
 end
 
 axis equal; axis off;
+end
+
+
+function [fields, show_rays] = parseArgs(varargin)
+if nargin == 1
+    fields = varargin{1};
+    show_rays = true;
+elseif nargin > 1 && mod(nargin, 2) == 0
+    show_rays = true;
+    fields = 0;
+    for i = 1:2:nargin
+        name = varargin{i};
+        value = varargin{i+1};
+        if strcmpi(name, 'fields')
+            fields = value;
+        elseif strcmpi(name, 'showrays')
+            show_rays = value;
+        else
+            warning('Invalid name: %s. Ignore the value.', name);
+        end
+    end
+else
+    error('Invalid input arguments!');
+end
 end

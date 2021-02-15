@@ -61,7 +61,7 @@ classdef OpticalSystem
         plotFieldCurvature(obj, full_angle, varargin)
         plotDistortion(obj, full_angle, varargin)
         img = plotSpotDiagram(obj, lambda, field_angle, varargin)
-        plotShapeProfile(obj, fields)
+        plotShapeProfile(obj, varargin)
     end
 
     methods (Access = private)
