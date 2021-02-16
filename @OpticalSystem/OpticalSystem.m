@@ -66,7 +66,7 @@ classdef OpticalSystem
 
     methods (Access = private)
         %%% Private methods
-        sys_mat = makeGaussianSystemMatrix(obj, lambda, varargin)
+        [sys_mat, t_mat, r_mat] = makeGaussianSystemMatrix(obj, lambda, varargin)
         sys_data = makeInternalSystemData(obj, lambda)
         l = getGaussianBackWorkingLength(obj, lambda)
         f = getGaussianFocalLength(obj, lambda)
