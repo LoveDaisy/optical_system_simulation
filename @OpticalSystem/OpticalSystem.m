@@ -46,6 +46,7 @@ classdef OpticalSystem
 
         % System solving
         obj = updateApertureHeight(obj, entry_beam_r, full_field_angle)
+        obj = solveApertureHeight(obj, f_number, full_field_angle)
 
         % Optimization
         options = makeOptimOptions(obj, varargin)
