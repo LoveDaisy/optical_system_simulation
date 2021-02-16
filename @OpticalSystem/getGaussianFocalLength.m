@@ -1,16 +1,15 @@
 function f = getGaussianFocalLength(obj, lambda)
-% INPUT
-%   obj:        OpticalSystem object
-%   lambda:     n-length vector
-% OUTPUT
-%   f:          n-length vector, the gaussian focal length
+% SYNTAX
+%   f = sys.getGaussianFocalLength(lambda)
+% where
+%   lambda:     n-length vector, wavelength
+%   f:          n-length vector, gaussian focal length
 
-OpticalSystem.check1D(lambda);
+parser = inputParser;
+parser.FunctionName = 'getGaussianFocalLength';
+parser.addRequired('lambda', @(x) isnumeric(x) && isreal(x) && isvector(x));
+parser.parse(lambda);
 
 sys_mat = obj.makeGaussianSystemMatrix(lambda);
-wl_num = size(sys_mat, 3);
-f = zeros(size(lambda));
-for i = 1:wl_num
-    f(i) = -1 / sys_mat(1, 2, i);
-end
+f = squeeze(-1 ./ sys_mat(1, 2, :));
 end
