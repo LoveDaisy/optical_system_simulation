@@ -51,7 +51,7 @@ rms_err = getRmsError(obj, options);
 
 f_all = [thickness_violation_err; main_f_err; main_l_err; abrr3_err; main_lsa_err; ...
     chm_lsa_err; main_osc_err; ray_fan_err; rms_err];
-f = log10(sum(f_all) + 1e-12);
+f = log10(sum(f_all(~isnan(f_all))) + 1e3 * sum(isnan(f_all)) + 1e-12);
 end
 
 
@@ -215,8 +215,8 @@ dx = dx / pupil(1, 2);      % Normalize
 
 ray_fan_err = (nansum(reshape(dy(:, 1, :).^2, [], 1)) + ...
     nansum(reshape(dx(:, 1, :).^2, [], 1)) * 2) * 10;
-ray_fan_err = ray_fan_err + (sum(reshape(nanvar(dy(:, 2:end, :), 0, 2), [], 1)) + ...
-    sum(reshape(nanvar(dx(:, 2:end, :), 0, 2), [], 1)) * 2) * 50;
+ray_fan_err = ray_fan_err + (nansum(reshape(nanvar(dy(:, 2:end, :), 0, 2), [], 1)) + ...
+    nansum(reshape(nanvar(dx(:, 2:end, :), 0, 2), [], 1)) * 2) * 50;
 end
 
 
