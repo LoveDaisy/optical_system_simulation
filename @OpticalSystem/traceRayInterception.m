@@ -34,6 +34,7 @@ for i = 1:wl_num
     if obstruct
         rays_store = remove_obstructed_rays(obj, init_rays, rays_store);
     end
+    rays_store = remove_eclipsed_rays(obj, rays_store);
 
     tmp_rays = rays_store(:, :, end);
     tmp_rays(:, 3) = tmp_rays(:, 3) - z0;
@@ -130,5 +131,13 @@ for l = 1:size(rays_store, 4)
         end
     end
     rays_store(isnan(sum(sum(rays_store, 3), 2)), :, :, l) = nan;
+end
+end
+
+
+function rays_store = remove_eclipsed_rays(obj, rays_store)
+for i = 1:size(rays_store, 3)
+    invalid_ind = abs(rays_store(:, 2, i, :)) > obj.surfaces(i).ah;
+    rays_store(invalid_ind) = nan;
 end
 end

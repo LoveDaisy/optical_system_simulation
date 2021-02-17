@@ -97,10 +97,13 @@ if show_rays
             zeros(ray_num, 1), sind(fields(fi)) * ones(ray_num, 1), ...
             cosd(fields(fi)) * ones(ray_num, 1)];
         rays_store = OpticalSystem.traceRays(rays, sys_data);
-        z = squeeze(rays_store(:, 3, :, 1));
-        y = squeeze(rays_store(:, 2, :, 1));
-        tmp_z = [-rays(:,6)*init_ray_dist + z(:,1), z];
-        tmp_y = [-rays(:,5)*init_ray_dist + y(:,1), y];
+        z = squeeze(rays_store(:, 3, :));
+        y = squeeze(rays_store(:, 2, :));
+        valid_ray_ind = all(bsxfun(@le, abs(y(:, 1:end-1)), sys_data(1:end-1, 4)'), 2);
+        z = z(valid_ray_ind, :);
+        y = y(valid_ray_ind, :);
+        tmp_z = [-rays(valid_ray_ind,6)*init_ray_dist + z(:,1), z];
+        tmp_y = [-rays(valid_ray_ind,5)*init_ray_dist + y(:,1), y];
         plot(tmp_z', tmp_y', 'Color', ray_color);
     end
 end
