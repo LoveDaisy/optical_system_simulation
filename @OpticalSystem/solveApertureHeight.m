@@ -14,7 +14,7 @@ d_line = get_fraunhofer_line('d');
 
 % Trace a Gaussian ray of [0, y]
 ray_state = traceGaussianRay(obj, [0, 1], d_line);
-aperture_stop_height = (1 / f_number) / -ray_state(3, end) * ray_state(2, obj.ast);
+aperture_stop_height = (1 / f_number / 2) / -ray_state(3, end) * ray_state(2, obj.ast);
 
 % === Back trace from aperture stop ===
 [front_sys, ~] = obj.splitAt(obj.ast);
