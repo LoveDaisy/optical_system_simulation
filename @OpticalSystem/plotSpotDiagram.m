@@ -183,7 +183,7 @@ height_pixel = floor(ver_spacing * (field_num - 1) / (1 - options.margins(1) - o
 
 spec_heat_map = zeros(height_pixel, width_pixel, wl_num);
 
-init_pts = [disk_uniform_rand([0, 0], pupil(1, 2), options.ray_num), zeros(options.ray_num, 1)];
+init_pts = [disk_uniform_rand([0, 0], pupil(1, 2), options.ray_num), pupil(1, 1) * ones(options.ray_num, 1)];
 for fi = 1:field_num
     curr_field = field_angle(fi);
     init_dir = [zeros(options.ray_num, 1), ones(options.ray_num, 1) * sind(curr_field), ...

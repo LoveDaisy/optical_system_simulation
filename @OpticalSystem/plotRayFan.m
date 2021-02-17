@@ -45,7 +45,7 @@ ty = linspace(-pr, pr, fan_ray_num - 1);
 ty = [0; ty(:)];
 tangential_pts = zeros(fan_ray_num, 2, wl_num, angle_num);
 for i = 1:angle_num
-    ray_pts = [zeros(fan_ray_num, 1), ty, zeros(fan_ray_num, 1)];
+    ray_pts = [zeros(fan_ray_num, 1), ty, pupils(1, 1) * ones(fan_ray_num, 1)];
     ray_dir = [zeros(fan_ray_num, 1), ...
         sind(field_angle(i)) * ones(fan_ray_num, 1), ...
         cosd(field_angle(i)) * ones(fan_ray_num, 1)];
@@ -60,7 +60,7 @@ sx = linspace(0, pr, fan_ray_num);
 sx = sx(:);
 sagittal_pts = zeros(fan_ray_num, 2, wl_num, angle_num);
 for i = 1:angle_num
-    ray_pts = [sx, zeros(fan_ray_num, 2)];
+    ray_pts = [sx, zeros(fan_ray_num, 1), pupils(1, 1) * ones(fan_ray_num, 1)];
     ray_dir = [zeros(fan_ray_num, 1), ...
         sind(field_angle(i)) * ones(fan_ray_num, 1), ...
         cosd(field_angle(i)) * ones(fan_ray_num, 1)];

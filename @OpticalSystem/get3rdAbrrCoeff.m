@@ -24,7 +24,7 @@ field_num = length(field_angle);
 
 pupils = obj.getPupils();
 
-init_rays = [0, field_angle(:)' * pi / 180; pupils(1, 2), zeros(1, field_num)];
+init_rays = [0, field_angle(:)' * pi / 180; pupils(1, 2), pupils(1, 1) * ones(1, field_num)];
 invariant = init_rays(1, 1) * init_rays(2, 2:end) - ...
     init_rays(1, 2:end) * init_rays(2, 1);
 

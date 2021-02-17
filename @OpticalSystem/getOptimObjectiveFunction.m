@@ -176,7 +176,7 @@ ty = [options.pupil_sample_t(:); reshape(-options.pupil_sample_t(2:end), [], 1)]
 fan_ray_num = length(ty);
 tangential_pts = zeros(fan_ray_num, 2, wl_num, angle_num);
 for i = 1:angle_num
-    ray_pts = [zeros(fan_ray_num, 1), ty, zeros(fan_ray_num, 1)];
+    ray_pts = [zeros(fan_ray_num, 1), ty, pupil(1, 1) * ones(fan_ray_num, 1)];
     ray_dir = [zeros(fan_ray_num, 1), ...
         sind(options.field_sample(i) * options.field_full) * ones(fan_ray_num, 1), ...
         cosd(options.field_sample(i) * options.field_full) * ones(fan_ray_num, 1)];
@@ -191,7 +191,7 @@ sx = options.pupil_sample_s(:) * pupil(1, 2);
 fan_ray_num = length(sx);
 sagittal_pts = zeros(fan_ray_num, 2, wl_num, angle_num);
 for i = 1:angle_num
-    ray_pts = [sx, zeros(fan_ray_num, 2)];
+    ray_pts = [sx, zeros(fan_ray_num, 1), pupil(1, 1) * ones(fan_ray_num, 1)];
     ray_dir = [zeros(fan_ray_num, 1), ...
         sind(options.field_sample(i) * options.field_full) * ones(fan_ray_num, 1), ...
         cosd(options.field_sample(i) * options.field_full) * ones(fan_ray_num, 1)];
@@ -241,7 +241,7 @@ pts_num = size(pts0, 1);
 rms = 0;
 sk = 0;
 ast = 0;
-init_pts = [pts0, zeros(pts_num, 1)];
+init_pts = [pts0, ones(pts_num, 1) * pupil(1, 1)];
 init_dir = zeros(pts_num, 3);
 for i = 1:angle_num
     init_dir(:, 2) = sind(options.field_full * options.field_sample(i));
