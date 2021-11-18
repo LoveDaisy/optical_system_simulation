@@ -11,6 +11,10 @@ In order to run the test scripts, you need to add this folder to MATLAB's path.
 * Optimization ability.
 * OOP programing style.
 
+A screenshot of some plots.
+
+![](img/plots.png)
+
 ---
 
 I'll write a tutorial when I have time.
