@@ -5,7 +5,7 @@ In order to run the test scripts, you need to add this folder to MATLAB's path.
 
 ## Features
 
-* All spherical surfaces system.
+* All spherical/conical surfaces system.
 * All 3rd order aberration.
 * All aberration plots (ray fan plot, spot plot, etc.) based on real ray tracing.
 * Optimization ability.
