@@ -26,7 +26,7 @@ else
     ylim = [];
 end
 
-line_colors = spec_to_rgb([lambda(:), ones(length(lambda), 1)], 'maxy', 1.2);
+line_colors = spec_to_rgb([lambda(:), ones(length(lambda), 1)], 'y', 1.2, 'Mixed', false);
 
 wl_num = length(lambda);
 angle_num = length(field_angle);

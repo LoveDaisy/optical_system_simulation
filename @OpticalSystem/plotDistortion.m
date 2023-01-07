@@ -14,7 +14,7 @@ if length(varargin) >= 1
 end
 wl_num = length(lambda);
 surface_num = length(obj.surfaces);
-line_colors = spec_to_rgb([lambda(:), ones(wl_num, 1)], 'maxy', 1.5);
+line_colors = spec_to_rgb([lambda(:), ones(wl_num, 1)], 'y', 1.5, 'Mixed', false);
 line_width = 2;
 
 pupil = obj.getPupils();

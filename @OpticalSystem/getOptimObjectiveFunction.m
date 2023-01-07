@@ -11,19 +11,33 @@ end
 
 function [f, f_all] = objFunc(obj, options, x)
 var_c_length = length(options.var_c);
-for i = 1:var_c_length
-    obj.surfaces(options.var_c(i)).c = x(i) / options.norm_size(1);
-end
-var_t_length = length(options.var_t);
-for i = 1:var_t_length
-    obj.surfaces(options.var_t(i)).t = x(i + var_c_length) * options.norm_size(2);
-end
-var_conic_length = length(options.var_conic);
-for i = 1:var_conic_length
-    obj.surfaces(options.var_conic(i)).asph_conic_k = x(i + var_c_length + var_t_length);
-end
+obj = obj.updateParameters(options, x);
 
+% Central thickness
 thickness_violation_err = sum(abs(min(x(var_c_length+1:end), 0))) * 1e6;
+
+% Edge violation
+edge_thickness_violation_err = 0;
+surfaces = obj.surfaces;
+for i = 1:length(surfaces) - 1
+    surface0 = surfaces(i);
+    surface1 = surfaces(i + 1);
+    y0 = surface0.ah;
+    y1 = surface1.ah;
+    if surface0.glass.nd > 1.01
+        y = max(y0, y1);
+    else
+        y = min(y0, y1);
+    end
+    z0 = surface0.getShapeProfile(y);
+    z1 = surface0.t + surface1.getShapeProfile(y);
+    if z1 < z0 + 0.2
+        edge_thickness_violation_err = edge_thickness_violation_err + abs(z1 - z0) * 1e3;
+    end
+    if isnan(z0) || isnan(z1)
+        edge_thickness_violation_err = nan;
+    end
+end
 
 % Back working length
 main_l_err = getWorkingLengthError(obj, options);
@@ -49,7 +63,7 @@ ray_fan_err = getRayFanError(obj, options);
 % Spot RMS
 rms_err = getRmsError(obj, options);
 
-f_all = [thickness_violation_err; main_f_err; main_l_err; abrr3_err; main_lsa_err; ...
+f_all = [thickness_violation_err; edge_thickness_violation_err; main_f_err; main_l_err; abrr3_err; main_lsa_err; ...
     chm_lsa_err; main_osc_err; ray_fan_err; rms_err];
 f = log10(sum(f_all(~isnan(f_all))) + 1e3 * sum(isnan(f_all)) + 1e-12);
 end
@@ -78,7 +92,7 @@ f0 = obj.getFocalLength(0, options.main_wl);
 if ~isempty(options.obj_f)
     main_f = options.obj_f(1);
     main_f_w = options.obj_f(2);
-    main_f_err = ((f0 - main_f) / f0)^2 * main_f_w;
+    main_f_err = ((f0 - main_f) / main_f)^2 * main_f_w;
 else
     main_f_err = 0;
 end

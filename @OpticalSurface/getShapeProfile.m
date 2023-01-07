@@ -5,5 +5,10 @@ function z = getShapeProfile(obj, y)
 % OUTPUT
 %   z:          z coordinate
 
-z = obj.c * y.^2 ./ (1 + sqrt(1 - (1 - obj.asph_conic_k) * obj.c^2 * y.^2));
+d = 1 - (1 - obj.asph_conic_k) * obj.c^2 * y.^2;
+if d > 0
+    z = obj.c * y.^2 ./ (1 + sqrt(d));
+else
+    z = nan;
+end
 end

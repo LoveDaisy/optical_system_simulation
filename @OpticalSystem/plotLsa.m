@@ -2,7 +2,7 @@ function plotLsa(obj, lambda, varargin)
 % INPUT
 %   lambda:     m-vector, wavelength. lambda(1) will used as default wavelength
 
-line_colors = spec_to_rgb([lambda(:), ones(length(lambda), 1)], 'maxy', 1.5);
+line_colors = spec_to_rgb([lambda(:), ones(length(lambda), 1)], 'y', 1.5, 'mixed', false);
 
 p = obj.getPupils();
 hm = p(1, 2);

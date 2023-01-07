@@ -219,12 +219,12 @@ for fi = 1:field_num
     spec_heat_map = spec_heat_map + field_heat_map;
 end
 
-wl_xyz = spec_to_ciexyz([lambda(:), ones(wl_num, 1)]);
+wl_xyz = spec_to_xyz([lambda(:), ones(wl_num, 1)], 'Mixed', false);
 heat_map = 0;
 for wi = 1:wl_num
     curr_rgb = spec_to_rgb([lambda(wi) * ones(height_pixel * width_pixel, 1), ...
         reshape(spec_heat_map(:, :, wi), [], 1)], ...
-        'MaxY', options.spectrum_max_y * wl_xyz(wi, 2));
+        'Y', options.spectrum_max_y * wl_xyz(wi, 2), 'Mixed', false);
     heat_map = heat_map + reshape(curr_rgb, [height_pixel, width_pixel, 3]);
 end
 heat_map = flipud(heat_map);

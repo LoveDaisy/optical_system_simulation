@@ -21,7 +21,7 @@ if length(varargin) >= 2
     ref_c = varargin{2};
 end
 wl_num = length(lambda);
-line_colors = spec_to_rgb([lambda(:), ones(wl_num, 1)], 'maxy', 1.5);
+line_colors = spec_to_rgb([lambda(:), ones(wl_num, 1)], 'y', 1.5, 'Mixed', false);
 line_width = 2;
 notation_height = 0.92;
 
