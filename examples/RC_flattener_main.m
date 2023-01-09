@@ -33,7 +33,6 @@ sys.ast = 1;
 sys.surfaces(1).asph_conic_k = 1 + 2*alpha / (1 - alpha) / beta^2;
 sys.surfaces(2).asph_conic_k = (2*beta/(1-alpha) + (1+beta)*(1-beta)^2) / ...
     (1+beta)^3;
-% sys = sys.updateApertureHeight(beam_r, full_field_angle);
 sys = sys.solveApertureHeight(f_number, full_field_angle);
 sys.surfaces(end).t = sys.getBackWorkingLength(0, d_line);
 
@@ -103,7 +102,6 @@ sys = sys.updateParameters(sys_options, x4);
 % Optimization finished
 
 sys.surfaces(end).t = sys.getBackWorkingLength(0, d_line);
-% sys = sys.updateApertureHeight(beam_r, full_field_angle);
 sys = sys.solveApertureHeight(f_number, full_field_angle);
 
 %%

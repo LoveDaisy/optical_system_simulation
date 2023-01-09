@@ -45,7 +45,6 @@ classdef OpticalSystem
         coef = get3rdAbrrCoeff(obj, field_angle)
 
         % System solving
-        obj = updateApertureHeight(obj, entry_beam_r, full_field_angle)
         obj = solveApertureHeight(obj, f_number, full_field_angle)
 
         % Optimization
