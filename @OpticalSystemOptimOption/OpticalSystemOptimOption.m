@@ -12,6 +12,7 @@ classdef OpticalSystemOptimOption
         field_sample double     % n3-vector, field sample position
         field_full double   % scalar
         image_curv double   % scalar, image curvature
+        f_number double     % scalar, f-number
 
         obj_bwl double      % 2-vector, back working length, [l, weight]
         obj_f double        % 2-vector, focal length, [f, weight]

@@ -16,6 +16,7 @@ function options = makeOptimOptions(obj, varargin)
 %   'PupilSampleS':     1-D vector, default is [0.3, 0.5, 0.707, 0.85, 1]
 %   'FieldSample':      1-D vector, default is [0, 0.5, 1]
 %   'FullField':        scalar, default is 0.
+%   'FNumber':          scalar, default is 0.
 %   'ImageCurvature':   scalar, default is 0.
 %
 %   'ObjBackWorkingLength':
@@ -50,6 +51,7 @@ options.pupil_sample_t = [0, 0.3, 0.5, 0.707, 0.85, 1];
 options.pupil_sample_s = [0, 0.3, 0.5, 0.707, 0.85, 1];
 options.field_sample = [0, 0.5, 1];
 options.field_full = 0;
+options.f_number = 0;
 options.image_curv = 0;
 options.norm_size = [1, 1] * obj.getFocalLength(0, options.main_wl);
 
@@ -124,6 +126,11 @@ while var_ind <= length(varargin)
             error('FullField should be a scalar');
         end
         options.field_full = var_val;
+    elseif strcmpi(var_name, 'fnumber')
+        if ~isscalar(var_val)
+            error('F-number should be a scalar!')
+        end
+        options.f_number = var_val;
     elseif strcmpi(var_name, 'imagecurvature')
         if ~isscalar(var_val)
             error('ImageCurvature should be a scalar!');

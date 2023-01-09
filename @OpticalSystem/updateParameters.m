@@ -12,4 +12,7 @@ end
 for i = 1:length(options.var_conic)
     obj.surfaces(options.var_conic(i)).asph_conic_k = x(i+length(options.var_c)+length(options.var_t));
 end
+if options.f_number > 1e-3 && options.field_full > 1e-3
+    obj = obj.solveApertureHeight(options.f_number, options.field_full);
+end
 end
