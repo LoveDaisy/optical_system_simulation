@@ -108,7 +108,7 @@ if show_rays
     end
 end
 
-axis equal; axis off;
+axis equal; axis tight; axis off;
 end
 
 
