@@ -114,6 +114,7 @@ classdef ZemaxGlass
 
     methods
         n = getRefractiveIndex(obj, lambda)
+        P = getPartialDispersion(obj, lambda1, lambda2)
     end
 
     methods (Static, Access = private)

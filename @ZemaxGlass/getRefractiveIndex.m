@@ -64,7 +64,7 @@ function n = herzberger(coef, lambda)
 w2 = lambda.^2;
 l = 1 ./ (w2 - 0.028);
 n = coef(1) + coef(2) .* l + coef(3) .* l.^2 + coef(4) .* w2 + ...
-    coef(5) .* w2.^2 + coef(6) .* w2.^3
+    coef(5) .* w2.^2 + coef(6) .* w2.^3;
 end
 
 
