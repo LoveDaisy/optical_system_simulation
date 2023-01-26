@@ -183,8 +183,6 @@ wl_num = length(lambda);
 angle_num = length(options.field_sample);
 image_curvature = options.image_curv;
 
-obj.surfaces(end).t = obj.getBackWorkingLength(0, options.main_wl);
-
 % Tangential input rays
 ty = [options.pupil_sample_t(:); reshape(-options.pupil_sample_t(2:end), [], 1)] * pupil(1, 2);
 fan_ray_num = length(ty);
@@ -246,8 +244,6 @@ pupil = obj.getPupils();
 lambda = [options.main_wl; options.chm_wl(:)];
 angle_num = length(options.field_sample);
 wl_num = length(lambda);
-
-obj.surfaces(end).t = obj.getBackWorkingLength(0, options.main_wl);
 
 pts0 = disk_circular_sample([0, 0], pupil(1, 2), options.obj_rms_k);
 pts_num = size(pts0, 1);
