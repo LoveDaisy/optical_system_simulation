@@ -2,12 +2,12 @@ classdef OpticalSurface
     properties
         c double             % curvature
         t double             % thickness
-        glass ZemaxGlass     % ZemaxGlass object
+        glass OpticalGlass   % OpticalGlass object
         ah double            % aperture height
-        asph_type char       % asphere polynomial type (qcon or qbsf)
+        asph_type char       % asphere polynomial type (power series, qcon, qbsf)
         asph_coef double     % asphere polynomial coefficients
-        asph_conic_k double  % conic k, k = 0 for sphere, k = 1 for paraboloid
-                             % z = c * y^2 / (1 + sqrt(1 - (1 - k) * c^2 * y^2))
+        asph_conic_k double  % conic k, k = 0 for sphere, k = -1 for paraboloid
+                             %   z = c * y^2 / (1 + sqrt(1 - (1 + k) * c^2 * y^2))
     end
 
     methods
@@ -33,7 +33,7 @@ classdef OpticalSurface
             elseif nargin == 3
                 s.c = varargin{1};
                 s.t = varargin{2};
-                s.glass = ZemaxGlass(varargin{3});
+                s.glass = OpticalGlass(varargin{3});
             else
                 error('Constructor parameter invalid!');
             end

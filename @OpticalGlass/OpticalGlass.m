@@ -1,4 +1,4 @@
-classdef ZemaxGlass
+classdef OpticalGlass
     properties (GetAccess = public, SetAccess = private)
         nd double
         vd double
@@ -27,11 +27,11 @@ classdef ZemaxGlass
     methods
         %%% Constructor
         % Syntax
-        %   glass = ZemaxGlass('BK7');
-        %   glass = ZemaxGlass(nd);
-        %   glass = ZemaxGlass([nd, vd]);
-        %   glass = ZemaxGlass(nd, vd);
-        function obj = ZemaxGlass(varargin)
+        %   glass = OpticalGlass('BK7');
+        %   glass = OpticalGlass(nd);
+        %   glass = OpticalGlass([nd, vd]);
+        %   glass = OpticalGlass(nd, vd);
+        function obj = OpticalGlass(varargin)
             obj.nd = 1;
             obj.vd = inf;
             obj.disp_formula_coef = zeros(1, 10);
@@ -55,7 +55,7 @@ classdef ZemaxGlass
                     error('glass name invalid!');
                 end
 
-                [param, formula_type] = ZemaxGlass.findGlass(glass_name);
+                [param, formula_type] = OpticalGlass.findGlass(glass_name);
                 if formula_type >= 0
                     obj.nd = param(1);
                     obj.vd = param(2);
@@ -72,7 +72,7 @@ classdef ZemaxGlass
                 param = varargin{1};
                 OpticalSystem.check1D(param);
                 if length(param) ~= 2
-                    error('Syntax: ZemaxGlass([nd, vd])');
+                    error('Syntax: OpticalGlass([nd, vd])');
                 end
                 obj.nd = param(1);
                 obj.vd = param(2);
@@ -94,7 +94,7 @@ classdef ZemaxGlass
                 obj.disp_formula_type = 0;
                 obj.name_str = 'AIR';
             else
-                [param, formula_type] = ZemaxGlass.findGlass(glass_name);
+                [param, formula_type] = OpticalGlass.findGlass(glass_name);
                 if formula_type >= 0
                     obj.nd = param(1);
                     obj.vd = param(2);

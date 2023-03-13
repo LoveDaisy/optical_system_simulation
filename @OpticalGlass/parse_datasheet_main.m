@@ -5,7 +5,7 @@ datasheet_filename = {'OHARA_190820', ...
 
 for fi = 1:length(datasheet_filename)
     filename = datasheet_filename{fi};
-    fid = fopen(sprintf('@ZemaxGlass/%s.agf', filename));
+    fid = fopen(sprintf('@OpticalGlass/%s.agf', filename));
     
     % Count glass numbers
     glass_num = 0;
@@ -70,6 +70,6 @@ for fi = 1:length(datasheet_filename)
     
     fclose(fid);
     
-    save(sprintf('@ZemaxGlass/%s.mat', filename), ...
+    save(sprintf('@OpticalGlass/%s.mat', filename), ...
         'glass_name', 'glass_prop', 'glass_coef_type');
 end

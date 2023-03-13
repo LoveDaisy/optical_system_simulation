@@ -1,6 +1,6 @@
 function n = getRefractiveIndex(obj, lambda)
 % INPUT
-%   obj:        ZemaxGlass object
+%   obj:        OpticalGlass object
 %   lambda:     n-vector, wavelength, nm
 % OUTPUT
 %   n:          n-vector, refractive index

@@ -26,7 +26,7 @@ classdef OpticalSystem
                 for i = 1:surface_num
                     obj.surfaces(i).c = c_array(i);
                     obj.surfaces(i).t = t_array(i);
-                    obj.surfaces(i).glass = ZemaxGlass(glass_name_array{i});
+                    obj.surfaces(i).glass = OpticalGlass(glass_name_array{i});
                 end
             end
             obj.ast = 1;

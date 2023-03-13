@@ -14,7 +14,7 @@ for i = 1:length(front_surface)-1
     front_surface(i).glass = front_surface(i+1).glass;
 end
 front_surface(end).t = 0;
-front_surface(end).glass = ZemaxGlass('AIR');
+front_surface(end).glass = OpticalGlass('AIR');
 front_surface(1).glass.is_reflective = true;
 front_surface(1).c = 0;
 front_surface(1).asph_coef = [];

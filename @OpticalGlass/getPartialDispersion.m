@@ -1,6 +1,6 @@
 function P = getPartialDispersion(obj, lambda1, lambda2)
 % INPUT
-%   obj:        ZemaxGlass object
+%   obj:        OpticalGlass object
 %   lambda1:    n-vector, wavelength, nm
 %   lambda2:    n-vector, wavelength, nm
 % OUTPUT
