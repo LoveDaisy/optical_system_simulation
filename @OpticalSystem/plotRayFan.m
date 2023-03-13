@@ -34,7 +34,7 @@ angle_num = length(field_angle);
 pupils = obj.getPupils();
 pr = pupils(1, 2);
 
-d_line = get_fraunhofer_line('d');
+d_line = util.get_fraunhofer_line('d');
 airy_disk_r = 1.22 * d_line * 1e-9 / (2 * pr * 1e-3) * ...
     abs(obj.getFocalLength(0, d_line));
 

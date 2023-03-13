@@ -5,7 +5,7 @@ function p = getPupils(obj)
 %   p:          2*2 array, [z1, r1; z2, r2], 1 for entrance pupil; 2 for exit pupil
 %               z is measured relative to the first surface
 
-d_line = get_fraunhofer_line('d');
+d_line = util.get_fraunhofer_line('d');
 p = zeros(2, 2);
 
 [front_sys, back_sys] = obj.splitAt(obj.ast);

@@ -5,7 +5,7 @@ function plotDistortion(obj, full_angle, varargin)
 % OPTIONAL INPUT
 %   lambda:     1-D vector, wavelength
 
-d_line = get_fraunhofer_line('d');
+d_line = util.get_fraunhofer_line('d');
 lambda = d_line;
 
 if length(varargin) >= 1

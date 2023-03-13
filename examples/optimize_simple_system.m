@@ -2,9 +2,9 @@ function [sys, fval, sys1, fval1] = optimize_simple_system(sys, f_des, field_ang
 % This function optimizes the initial system, with given target focal lenght, field angle, F-number, and 
 % curvature of image surface (if image_curvature = 0 then it is image plane).
 
-d_line = get_fraunhofer_line('d');
-F_line = get_fraunhofer_line('F');
-C_line = get_fraunhofer_line('C');
+d_line = util.get_fraunhofer_line('d');
+F_line = util.get_fraunhofer_line('F');
+C_line = util.get_fraunhofer_line('C');
 
 % Normalize factor for all curvature variables and thickness variables.
 normalize_size = [f_des, 1e-3*f_des];

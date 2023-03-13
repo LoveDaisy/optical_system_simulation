@@ -4,12 +4,12 @@
 clear; close all; clc;
 
 % Prepare spectral lines
-d_line = get_fraunhofer_line('d');
-F_line = get_fraunhofer_line('F');
-e_line = get_fraunhofer_line('e');
-C_line = get_fraunhofer_line('C');
-r_line = get_fraunhofer_line('r');
-g_line = get_fraunhofer_line('g');
+d_line = util.get_fraunhofer_line('d');
+F_line = util.get_fraunhofer_line('F');
+e_line = util.get_fraunhofer_line('e');
+C_line = util.get_fraunhofer_line('C');
+r_line = util.get_fraunhofer_line('r');
+g_line = util.get_fraunhofer_line('g');
 
 f_number = 10;                  % F number
 field_angle = 0.65;             % Half angle

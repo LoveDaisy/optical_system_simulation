@@ -51,7 +51,7 @@ end
 
 
 function [lambda, ci, obstruct] = parse_args(args)
-lambda = get_fraunhofer_line('d');
+lambda = util.get_fraunhofer_line('d');
 ci = 0;
 obstruct = true;
 

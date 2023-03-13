@@ -43,10 +43,10 @@ options = OpticalSystemOptimOption();
 surface_num = length(obj.surfaces);
 
 % Default values
-options.main_wl = get_fraunhofer_line('d');
+options.main_wl = util.get_fraunhofer_line('d');
 options.chm_wl = zeros(2, 1);
-options.chm_wl(1) = get_fraunhofer_line('C');
-options.chm_wl(2) = get_fraunhofer_line('F');
+options.chm_wl(1) = util.get_fraunhofer_line('C');
+options.chm_wl(2) = util.get_fraunhofer_line('F');
 options.pupil_sample_t = [0, 0.3, 0.5, 0.707, 0.85, 1];
 options.pupil_sample_s = [0, 0.3, 0.5, 0.707, 0.85, 1];
 options.field_sample = [0, 0.5, 1];

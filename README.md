@@ -27,9 +27,9 @@ Here are some brief introductions.
 To get spectral lines, function `get_fraunhofer_line` is helpful.
 
 ```matlab
-d_line = get_fraunhofer_line('d');
-F_line = get_fraunhofer_line('F');
-C_line = get_fraunhofer_line('C');
+d_line = util.get_fraunhofer_line('d');
+F_line = util.get_fraunhofer_line('F');
+C_line = util.get_fraunhofer_line('C');
 ```
 
 Use class `OpticalSystem` to build up your system, with given surface curvatures and thicknesses.

@@ -10,7 +10,7 @@ parser.addRequired('Field', @(x) isscalar(x));
 parser.parse(f_number, full_field_angle);
 
 % === Determine height of aperture stop in Gaussian solution ===
-d_line = get_fraunhofer_line('d');
+d_line = util.get_fraunhofer_line('d');
 
 % Trace a Gaussian ray of [0, y]
 ray_state = traceGaussianRay(obj, [0, 1], d_line);

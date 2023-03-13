@@ -21,7 +21,7 @@ field_num = length(fields);
 
 pupil = obj.getPupils();
 ray_num = 7;
-d_line = get_fraunhofer_line('d');
+d_line = util.get_fraunhofer_line('d');
 
 hold on;
 

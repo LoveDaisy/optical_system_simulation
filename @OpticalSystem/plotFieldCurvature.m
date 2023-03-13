@@ -6,7 +6,7 @@ function plotFieldCurvature(obj, full_angle, varargin)
 %   lambda:     1-D vector, wavelength
 %   ref_c:      scalar
 
-d_line = get_fraunhofer_line('d');
+d_line = util.get_fraunhofer_line('d');
 lambda = d_line;
 ref_c = 0;
 

@@ -85,9 +85,9 @@ end
 function lambda = parse_args(args)
 % Helper function. Parses the optional arguments
 
-d_line = get_fraunhofer_line('d');
-C_line = get_fraunhofer_line('C');
-F_line = get_fraunhofer_line('F');
+d_line = util.get_fraunhofer_line('d');
+C_line = util.get_fraunhofer_line('C');
+F_line = util.get_fraunhofer_line('F');
 
 lambda = [d_line, C_line, F_line];
 

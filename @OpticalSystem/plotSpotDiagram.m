@@ -24,7 +24,7 @@ options = parse_input(varargin);
 wl_num = length(lambda);
 field_num = length(field_angle);
 
-d_line = get_fraunhofer_line('d');
+d_line = util.get_fraunhofer_line('d');
 pupil = obj.getPupils();
 f0 = obj.getFocalLength(0, d_line);
 
@@ -183,7 +183,7 @@ height_pixel = floor(ver_spacing * (field_num - 1) / (1 - options.margins(1) - o
 
 spec_heat_map = zeros(height_pixel, width_pixel, wl_num);
 
-init_pts = [disk_uniform_rand([0, 0], pupil(1, 2), options.ray_num), pupil(1, 1) * ones(options.ray_num, 1)];
+init_pts = [util.disk_uniform_rand([0, 0], pupil(1, 2), options.ray_num), pupil(1, 1) * ones(options.ray_num, 1)];
 for fi = 1:field_num
     curr_field = field_angle(fi);
     init_dir = [zeros(options.ray_num, 1), ones(options.ray_num, 1) * sind(curr_field), ...
@@ -197,7 +197,7 @@ for fi = 1:field_num
     field_heat_map = zeros(size(spec_heat_map));
     size_config = [options.width_pixel, options.width_length, 0, y0];
     for wi = 1:wl_num
-        curr_heat_map = plot_intersection_scatter(pts(:,:,wi), size_config);
+        curr_heat_map = util.plot_intersection_scatter(pts(:,:,wi), size_config);
 
         back_left = floor(options.margins(4) * width_pixel + hor_spacing * (wi - 1) - size_config(1) / 2);
         tmp_left = max(1 - back_left, 1);

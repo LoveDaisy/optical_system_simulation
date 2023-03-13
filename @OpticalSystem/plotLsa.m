@@ -25,9 +25,9 @@ p.addParameter('ShowLegend', false, @(x) islogical(x) && isscalar(x));
 p.parse(obj, lambda, varargin{:});
 
 if ischar(lambda)
-    lambda = get_fraunhofer_line(lambda);
+    lambda = util.get_fraunhofer_line(lambda);
 elseif iscell(lambda)
-    lambda = cellfun(@(x) get_fraunhofer_line(x), lambda);
+    lambda = cellfun(@(x) util.get_fraunhofer_line(x), lambda);
 end
 
 pupil = obj.getPupils();

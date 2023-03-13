@@ -6,8 +6,8 @@ function P = getPartialDispersion(obj, lambda1, lambda2)
 % OUTPUT
 %   P:          n-vector, partial dispersion
 
-C_line = get_fraunhofer_line('C');
-F_line = get_fraunhofer_line('F');
+C_line = util.get_fraunhofer_line('C');
+F_line = util.get_fraunhofer_line('F');
 
 P = (getRefractiveIndex(obj, lambda1) - getRefractiveIndex(obj, lambda2)) ./ ...
     (getRefractiveIndex(obj, F_line) - getRefractiveIndex(obj, C_line));

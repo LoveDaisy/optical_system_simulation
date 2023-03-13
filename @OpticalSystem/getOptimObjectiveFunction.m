@@ -245,7 +245,7 @@ lambda = [options.main_wl; options.chm_wl(:)];
 angle_num = length(options.field_sample);
 wl_num = length(lambda);
 
-pts0 = disk_circular_sample([0, 0], pupil(1, 2), options.obj_rms_k);
+pts0 = util.disk_circular_sample([0, 0], pupil(1, 2), options.obj_rms_k);
 pts_num = size(pts0, 1);
 
 rms = 0;
