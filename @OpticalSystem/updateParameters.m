@@ -1,7 +1,7 @@
 function obj = updateParameters(obj, options, x)
 % INPUT
 %   obj:        OpticalSystem object
-%   options:    OpticalSystemOptimOption object
+%   options:    OptimOption object
 
 for i = 1:length(options.var_c)
     obj.surfaces(options.var_c(i)).c = x(i) / options.norm_size(1);

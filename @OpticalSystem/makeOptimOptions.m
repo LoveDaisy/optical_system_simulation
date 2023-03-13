@@ -37,9 +37,9 @@ function options = makeOptimOptions(obj, varargin)
 %                       First is for field. A scalar or the same length as 'FieldSample'.
 %                       Second is whether fit to a image sphere.
 % OUTPUT
-%   options:    OpticalSystemOptimOption object
+%   options:    ptimOption object
 
-options = OpticalSystemOptimOption();
+options = OptimOption();
 surface_num = length(obj.surfaces);
 
 % Default values

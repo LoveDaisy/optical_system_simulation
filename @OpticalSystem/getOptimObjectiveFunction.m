@@ -1,7 +1,7 @@
 function func = getOptimObjectiveFunction(obj, options)
 % INPUT
 %   obj:        OpticalSystem object
-%   options:    OpticalSystemOptimOptins object
+%   options:    OptimOptions object
 % OUTPUT
 %   func:       a function used for optimizaiton
 

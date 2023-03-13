@@ -1,4 +1,4 @@
-classdef OpticalSystemOptimOption
+classdef OptimOption
     properties (Access = ?OpticalSystem)
         var_c uint16        % surface index
         var_t uint16        % surface index
