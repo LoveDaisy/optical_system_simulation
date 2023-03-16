@@ -43,5 +43,14 @@ classdef OpticalSurface
     methods
         %%% Public methods
         z = getShapeProfile(obj, y)
+
+        % Ray tracing
+        rays_out = reactToRays(obj, rays_in)
+    end
+
+    methods (Access = {?OpticalSystem, ?OpticalSurface, ?matlab.unittest.TestCase})
+        %%% Private methods
+        % Find intersection point
+        p = findIntersectionPoint(obj, ray_in)
     end
 end
