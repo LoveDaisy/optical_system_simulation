@@ -1,4 +1,9 @@
 function pts = traceRayInterception(obj, init_rays, varargin)
+% SYNTAX
+%   pts = obj.traceRayInterception(init_rays)
+%   pts = obj.traceRayInterception(init_rays, lambda)
+%   pts = obj.traceRayInterception(init_rays, lambda, ci)
+%   pts = obj.traceRayInterception(init_rays, lambda, ci, obstruct)
 % INPUT
 %   obj:        OpticalSystem object
 %   init_rays:  n*6, rays, [x, y, z, dx, dy, dz]
@@ -9,6 +14,7 @@ function pts = traceRayInterception(obj, init_rays, varargin)
 % OUTPUT
 %   pts:        n*2*m array
 
+% Parse input args
 if size(init_rays, 2) ~= 6
     error('Rays must be like [x, y, z, dx, dy, dz]');
 end

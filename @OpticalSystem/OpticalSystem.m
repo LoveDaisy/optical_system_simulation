@@ -52,9 +52,6 @@ classdef OpticalSystem
         func = getOptimObjectiveFunction(obj, options)
         obj = updateParameters(obj, options, x)
 
-        % Ray tracing
-        pts = traceRayInterception(obj, init_rays, varargin)
-
         % Plot functions
         plotLsa(obj, lambda, varargin)
         plotRayFan(obj, lambda, field_angle, varargin)
@@ -71,9 +68,12 @@ classdef OpticalSystem
         l = getGaussianBackWorkingLength(obj, lambda)
         f = getGaussianFocalLength(obj, lambda)
         [front_sys, back_sys] = splitAt(obj, surf_ind)
+
+        % Ray tracing
+        pts = traceRayInterception(obj, init_rays, varargin)
     end
 
-    methods (Static, Access = private)
+    methods (Static, Access = {?OpticalSystem, ?matlab.unittest.TestCase})
         %%% Static private methods
         % Check conditions
         checkArrayParam(c_array, t_array, glass_name_array)

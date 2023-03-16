@@ -1,4 +1,6 @@
 function rays_store = traceRays(rays, sys_data)
+% SYNTAX
+%   rays_store = traceRays(rays, sys_data)
 % INPUT
 %   rays:       n*6, [x, y, z, dx, dy, dz]
 %   sys_data:   m*k*l, the system data of OpticalSystem object. m is surface number,

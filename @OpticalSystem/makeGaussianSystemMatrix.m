@@ -12,13 +12,10 @@ function [sys_mat, t_mat_store, r_mat_store] = makeGaussianSystemMatrix(obj, lam
 %   r_mat:      2x2xmxn refraction matrix. n is wavelength number. When in reflection cases, the
 %               refractive index will be negative.
 
-% Parse input arguments
-parser = inputParser;
-parser.FunctionName = 'makeGaussianSystemMatrix';
-parser.addRequired('lambda', @(x) isnumeric(x) && isreal(x) && isvector(x));
-parser.addOptional('n0', ones(size(lambda)), ...
-    @(x) isnumeric(x) && isreal(x) && isvector(x) && length(x) == length(lambda));
-parser.parse(lambda, varargin{:});
+n0 = ones(size(lambda));
+if ~isempty(varargin)
+    n0 = varargin{1};
+end
 
 surface_num = length(obj.surfaces);
 wl_num = length(lambda);
@@ -32,7 +29,7 @@ end
 
 reverse_prop = false;
 
-prev_n = parser.Results.n0;
+prev_n = n0;
 for i = 1:surface_num
     if obj.surfaces(i).glass.is_reflective
         reverse_prop = ~reverse_prop;
